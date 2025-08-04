@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,18 +12,25 @@ use App\Models\Concerns\HasStatus;
 class Copropriete extends Model
 {
     use HasFactory, HasStatus;
+
     protected $primaryKey = 'id_copropriete';
-    protected $fillable = ['nom_copropriete', 'adresse', 'code_postal', 'ville', 'id_residence', 'statut'];
-    protected $casts = ['statut' => 'boolean'];
 
-    public function residence(): BelongsTo
-    {
-        return $this->belongsTo(Residence::class, 'id_residence');
-    }
+    protected $fillable = [
+        'nom_copropriete',
+        'id_syndic',
+        'statut',
+    ];
 
-    public function lots(): HasMany
+    protected $casts = [
+        'statut' => 'boolean',
+    ];
+
+    /**
+     * Définit la relation : Une Résidence APPARTIENT À (belongsTo) un Syndic.
+     */
+    public function syndic(): BelongsTo
     {
-        return $this->hasMany(Lot::class, 'id_copropriete');
+        return $this->belongsTo(Syndic::class, 'id_syndic');
     }
 
     public function affectations(): MorphMany
@@ -30,5 +38,8 @@ class Copropriete extends Model
         return $this->morphMany(Affectation::class, 'affectable');
     }
 
-
+    public function residences(): HasMany
+    {
+        return $this->hasMany(Residence::class, 'id_copropriete');
+    }
 }

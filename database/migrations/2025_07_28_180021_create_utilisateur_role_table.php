@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lot_proprietaire', function (Blueprint $table) {
-            // Ajoute les colonnes `created_at` et `updated_at` (nullable)
-            $table->timestamps();
+        Schema::create('utilisateur_role', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
+            $table->foreignId('id_role')->constrained('roles', 'id_role')->onDelete('cascade');
+            $table->primary(['user_id', 'id_role']);
         });
     }
 
@@ -22,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('lot_proprietaire', function (Blueprint $table) {
-            $table->dropTimestamps();
-        });
+        Schema::dropIfExists('utilisateur_role');
     }
 };

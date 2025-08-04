@@ -14,6 +14,6 @@ class ExerciceComptable extends Model
 
     public function copropriete(): BelongsTo
     {
-        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+        return $this->belongsTo(Residence::class, 'id_copropriete');
     }
 }

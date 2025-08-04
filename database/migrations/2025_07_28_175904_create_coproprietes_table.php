@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('langues', function (Blueprint $table) {
-            $table->id('id_langue');
-            $table->string('code_langue', 5)->unique(); // ex: 'fr', 'en', 'es'
-            $table->string('nom'); // ex: 'Français', 'English'
-            $table->boolean('est_active')->default(true); // Pour activer/désactiver une langue
+        Schema::create('coproprietes', function (Blueprint $table) {
+            $table->id('id_copropriete');
+            $table->foreignId('id_syndic')->constrained('syndics', 'id_syndic')->onDelete('cascade');
+            $table->string('nom_copropriete');
+            $table->boolean('statut')->default(true);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('langues');
+        Schema::dropIfExists('coproprietes');
     }
 };

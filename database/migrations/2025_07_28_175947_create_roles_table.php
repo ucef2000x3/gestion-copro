@@ -6,16 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id('id_role');
-            // Colonne JSON pour stocker les traductions du nom du rôle.
             $table->json('nom_role');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('roles');

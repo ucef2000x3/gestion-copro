@@ -10,12 +10,12 @@ class Lot extends Model
 {
     use HasFactory, HasStatus;
     protected $primaryKey = 'id_lot';
-    protected $fillable = ['numero_lot', 'nombre_tantiemes', 'id_copropriete', 'statut'];
+    protected $fillable = ['numero_lot', 'nombre_tantiemes', 'id_residence', 'statut'];
     protected $casts = ['statut' => 'boolean', 'nombre_tantiemes' => 'integer'];
 
-    public function copropriete(): BelongsTo
+    public function residences(): BelongsTo
     {
-        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+        return $this->belongsTo(Residence::class, 'id_residence');
     }
 
     /**
@@ -26,5 +26,11 @@ class Lot extends Model
         return $this->belongsToMany(Proprietaire::class, 'lot_proprietaire', 'id_lot', 'id_proprietaire')
             ->withPivot('pourcentage_possession')
             ->withTimestamps(); // Optionnel: si la table pivot a des timestamps
+    }
+
+    public function residence(): BelongsTo
+    {
+        // On précise la clé étrangère que la relation doit utiliser.
+        return $this->belongsTo(Residence::class, 'id_residence');
     }
 }

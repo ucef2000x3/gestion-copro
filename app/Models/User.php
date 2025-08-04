@@ -103,7 +103,7 @@ class User extends Authenticatable
                     // Cas 1: Direct match
                     if ($affectation->affectable_type === get_class($model) && $affectation->affectable_id === $model->getKey()) return true;
                     // Cas 2: Parent match
-                    if ($model instanceof \App\Models\Residence) {
+                    if ($model instanceof \App\Models\Copropriete) {
                         if ($affectation->affectable_type === \App\Models\Syndic::class && $affectation->affectable_id === $model->id_syndic) return true;
                     }
                 }
@@ -182,9 +182,9 @@ class User extends Authenticatable
 
         // 2. Cherche une affectation sur le PARENT (remontée hiérarchique)
         $parent = null;
-        if ($model instanceof \App\Models\Residence) {
+        if ($model instanceof \App\Models\Copropriete) {
             $parent = $model->syndic;
-        } elseif ($model instanceof \App\Models\Copropriete) {
+        } elseif ($model instanceof \App\Models\Residence) {
             $parent = $model->residence;
         }
         // ... (ajouter d'autres logiques de parenté si nécessaire)

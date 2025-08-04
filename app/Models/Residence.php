@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,25 +11,18 @@ use App\Models\Concerns\HasStatus;
 class Residence extends Model
 {
     use HasFactory, HasStatus;
-
     protected $primaryKey = 'id_residence';
+    protected $fillable = ['nom_residence', 'adresse', 'code_postal', 'ville', 'id_copropriete', 'statut'];
+    protected $casts = ['statut' => 'boolean'];
 
-    protected $fillable = [
-        'nom_residence',
-        'id_syndic',
-        'statut',
-    ];
-
-    protected $casts = [
-        'statut' => 'boolean',
-    ];
-
-    /**
-     * Définit la relation : Une Résidence APPARTIENT À (belongsTo) un Syndic.
-     */
-    public function syndic(): BelongsTo
+    public function copropriete(): BelongsTo
     {
-        return $this->belongsTo(Syndic::class, 'id_syndic');
+        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+    }
+
+    public function lots(): HasMany
+    {
+        return $this->hasMany(Lot::class, 'id_residence');
     }
 
     public function affectations(): MorphMany
@@ -38,8 +30,14 @@ class Residence extends Model
         return $this->morphMany(Affectation::class, 'affectable');
     }
 
-    public function coproprietes(): HasMany
+    public function getRouteKeyName()
     {
-        return $this->hasMany(Copropriete::class, 'id_residence');
+        // =========================================================
+        // == CORRECTION N°2 : LA CLÉ POUR LES ROUTES ==
+        // =========================================================
+        // On s'assure que Laravel utilise bien cette colonne pour générer les URLs.
+        return 'id_residence';
     }
+
+
 }

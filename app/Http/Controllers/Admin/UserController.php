@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Langue;
-use App\Models\Residence;
+use App\Models\Copropriete;
 use App\Models\Role;
 use App\Models\Syndic;
 use App\Models\User;
@@ -38,7 +38,7 @@ class UserController extends Controller
         $allRoles = Role::orderBy('id_role')->get();
         $userGlobalRoleIds = $user->roles->pluck('id_role')->toArray();
         $syndics = Syndic::orderBy('nom_entreprise')->get();
-        $residences = Residence::orderBy('nom_residence')->get();
+        $residences = Copropriete::orderBy('nom_residence')->get();
         $langues = Langue::where('est_active', true)->orderBy('nom')->get();
 
         // On envoie toutes ces données à la vue en utilisant un tableau associatif (plus lisible).
@@ -47,7 +47,7 @@ class UserController extends Controller
             'allRoles' => $allRoles,
             'userGlobalRoleIds' => $userGlobalRoleIds,
             'syndics' => $syndics,
-            'residences' => $residences,
+            'coproprietes' => $residences,
             'langues' => $langues,
         ]);
     }

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SyndicController;
-use App\Http\Controllers\Admin\ResidenceController;
 use App\Http\Controllers\Admin\CoproprieteController;
+use App\Http\Controllers\Admin\ResidenceController;
 use App\Http\Controllers\Admin\LotController;
 use App\Http\Controllers\Admin\ProprietaireController;
 use App\Http\Controllers\Admin\RoleController;
@@ -36,6 +37,20 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::get('/test-lang', function () {
+    // Force l'application à être en français pour ce test
+    App::setLocale('fr');
+
+    // Affiche des informations de débogage et arrête l'exécution
+    dd(
+        'Langue définie via config/app.php :', config('app.locale'),
+        'Langue de secours (fallback) :', config('app.fallback_locale'),
+        'Langue actuelle de l\'application :', App::getLocale(),
+        'Traduction pour "Dashboard" :', __('Dashboard'),
+        'Traduction pour "validation.required" :', __('validation.required')
+    );
+});
+
 // Groupe de toutes les routes qui nécessitent que l'utilisateur soit authentifié
 Route::middleware('auth')->group(function () {
 
@@ -51,7 +66,7 @@ Route::middleware('auth')->group(function () {
 
     // --- CRUDs Principaux ---
     Route::resource('/admin/syndics', SyndicController::class);
-    Route::resource('/admin/residences', ResidenceController::class);
+    Route::resource('/admin/coproprietes', CoproprieteController::class);
     // (Nous ajouterons les copropriétés et les lots ici plus tard)
 
 
@@ -65,7 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users/{user}/affectations', [UserAffectationController::class, 'store'])->name('users.affectations.store');
     Route::delete('/admin/users/{user}/affectations/{affectation}', [UserAffectationController::class, 'destroy'])->name('users.affectations.destroy');
     //gestion des copropriétés
-    Route::resource('/admin/coproprietes', CoproprieteController::class);
+    Route::resource('/admin/residences', ResidenceController::class);
     //gestion des lots
     Route::resource('/admin/lots', LotController::class);
     // Gestion des propriétaires
@@ -75,6 +90,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/lots/{lot}/proprietaires', [LotProprietaireController::class, 'store'])->name('lots.proprietaires.store');
     Route::patch('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'update'])->name('lots.proprietaires.update');
     Route::delete('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'destroy'])->name('lots.proprietaires.destroy');
+
+
 });
 
 

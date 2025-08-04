@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ajouter un nouveau Syndic') }}
+            {{ __('Add New Syndic') }}
         </h2>
     </x-slot>
 
@@ -14,12 +14,12 @@
 
                         <div class="space-y-6">
                             <div>
-                                <h2 class="text-lg font-medium leading-6 text-gray-900">Informations du Syndic</h2>
-                                <p class="mt-1 text-sm text-gray-500">Renseignez le nom de l'entreprise du syndic.</p>
+                                <h2 class="text-lg font-medium leading-6 text-gray-900">{{ __('Syndic Information') }}</h2>
+                                <p class="mt-1 text-sm text-gray-500">{{ __('Fill Syndic Name') }}</p>
                             </div>
 
                             <div>
-                                <label for="nom_entreprise" class="block text-sm font-medium leading-6 text-gray-900">Nom de l'entreprise</label>
+                                <label for="nom_entreprise" class="block text-sm font-medium leading-6 text-gray-900">{{ __('Syndic Name') }}</label>
                                 <div class="mt-2">
                                     <input type="text"
                                            name="nom_entreprise"
@@ -33,16 +33,16 @@
                                 @enderror
                             </div>
                             <div class="mt-6">
-                                <label for="statut" class="block text-sm font-medium leading-6 text-gray-900">Statut</label>
+                                <label for="statut" class="block text-sm font-medium leading-6 text-gray-900">{{ __('Status') }}</label>
                                 <select id="statut" name="statut" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
 
                                     {{-- Pour `edit.blade.php`, `$syndic` existe. Pour `create.blade.php`, il n'existe pas. --}}
                                     {{-- L'opérateur `?? true` gère le cas de la création en mettant 'Actif' par défaut. --}}
                                     <option value="1" @if(old('statut', $syndic->statut ?? true) == true) selected @endif>
-                                        Actif
+                                        {{ __('Actif') }}
                                     </option>
                                     <option value="0" @if(old('statut', $syndic->statut ?? true) == false) selected @endif>
-                                        Inactif
+                                        {{ __('Inactif') }}
                                     </option>
                                 </select>
                                 @error('statut')
@@ -53,9 +53,9 @@
 
                         <!-- Actions du formulaire -->
                         <div class="mt-6 flex items-center justify-end gap-x-6">
-                            <a href="{{ route('syndics.index') }}" class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
+                            <a href="{{ route('syndics.index') }}" class="text-sm font-semibold leading-6 text-gray-900">{{ __('Cancel') }}</a>
                             <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                Sauvegarder
+                                {{ __('Save') }}
                             </button>
                         </div>
                     </form>

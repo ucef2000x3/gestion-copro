@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('lots', function (Blueprint $table) {
             $table->id('id_lot');
-
-            $table->foreignId('id_copropriete')
-                ->constrained('coproprietes', 'id_copropriete')
-                ->onDelete('cascade');
-
+            $table->foreignId('id_residence')->constrained('residences', 'id_residence')->onDelete('cascade');
             $table->string('numero_lot');
             $table->unsignedInteger('nombre_tantiemes')->default(0);
-
             $table->boolean('statut')->default(true);
             $table->timestamps();
         });

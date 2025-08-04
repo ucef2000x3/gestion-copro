@@ -14,7 +14,7 @@
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
                             <h1 class="text-xl font-semibold leading-6 text-gray-900">Lots</h1>
-                            <p class="mt-2 text-sm text-gray-700">Liste de tous les lots de copropriété.</p>
+                            <p class="mt-2 text-sm text-gray-700">Liste de tous les lots de résidence.</p>
                         </div>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                             @can('create', App\Models\Lot::class)
@@ -37,7 +37,7 @@
                                     <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Numéro du Lot</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Copropriété</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Résidence</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tantièmes</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Statut</th>
                                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"><span class="sr-only">Actions</span></th>
@@ -47,7 +47,7 @@
                                     @forelse ($lots as $lot)
                                         <tr>
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ $lot->numero_lot }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $lot->copropriete->nom_copropriete ?? 'N/A' }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $lot->residence->nom_residence ?? 'N/A' }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $lot->nombre_tantiemes }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 @if($lot->statut)

@@ -25,9 +25,9 @@ class Syndic extends Model
     /**
      * Définit la relation inverse : Un Syndic A PLUSIEURS (hasMany) Résidences.
      */
-    public function residences(): HasMany
+    public function coproprietes(): HasMany
     {
-        return $this->hasMany(Residence::class, 'id_syndic');
+        return $this->hasMany(Copropriete::class, 'id_syndic');
     }
 
 

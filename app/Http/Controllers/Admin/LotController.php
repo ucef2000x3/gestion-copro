@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Copropriete;
+use App\Models\Residence;
 use App\Models\Proprietaire;
 use App\Models\Lot;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class LotController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Lot::class);
-        $lots = Lot::with('copropriete')->latest()->paginate(15);
+        $lots = Lot::with('residence')->latest()->paginate(15);
         return view('admin.lots.index', compact('lots'));
     }
 
@@ -26,9 +26,9 @@ class LotController extends Controller
     public function create()
     {
         $this->authorize('create', Lot::class);
-        // On ne propose que les copropriétés actives pour la création.
-        $coproprietes = Copropriete::actif()->orderBy('nom_copropriete')->get();
-        return view('admin.lots.create', compact('coproprietes'));
+        // On ne propose que les residences actifs pour la création.
+        $residences = Residence::actif()->orderBy('nom_residence')->get();
+        return view('admin.lots.create', compact('residences'));
     }
 
     /**
@@ -41,10 +41,10 @@ class LotController extends Controller
         $validated = $request->validate([
             'numero_lot' => 'required|string|max:255',
             'nombre_tantiemes' => 'required|integer|min:0',
-            'id_copropriete' => ['required', 'exists:coproprietes,id_copropriete', function ($attribute, $value, $fail) {
-                $copropriete = Copropriete::find($value);
-                if ($copropriete && !$copropriete->statut) {
-                    $fail('La copropriété sélectionnée est inactive.');
+            'id_residence' => ['required', 'exists:residences,id_residence', function ($attribute, $value, $fail) {
+                $residence = Residence::find($value);
+                if ($residence && !$residence->statut) {
+                    $fail('La résidence sélectionnée est inactif.');
                 }
             }],
             'statut' => 'required|boolean',
@@ -66,7 +66,7 @@ class LotController extends Controller
         $lot->load('proprietaires');
 
         // On récupère les données pour les menus déroulants du formulaire principal
-        $coproprietes = Copropriete::orderBy('nom_copropriete')->get();
+        $residences = Residence::orderBy('nom_residence')->get();
 
         // On récupère uniquement les propriétaires actifs qui ne sont pas DÉJÀ liés à ce lot
         // pour peupler le menu déroulant d'ajout.
@@ -75,7 +75,7 @@ class LotController extends Controller
             ->orderBy('nom')
             ->get();
 
-        return view('admin.lots.edit', compact('lot', 'coproprietes', 'proprietaires_non_lies'));
+        return view('admin.lots.edit', compact('lot', 'residences', 'proprietaires_non_lies'));
     }
 
     /**
@@ -88,10 +88,10 @@ class LotController extends Controller
         $validated = $request->validate([
             'numero_lot' => 'required|string|max:255',
             'nombre_tantiemes' => 'required|integer|min:0',
-            'id_copropriete' => ['required', 'exists:coproprietes,id_copropriete', function ($attribute, $value, $fail) {
-                $copropriete = Copropriete::find($value);
-                if ($copropriete && !$copropriete->statut) {
-                    $fail('La copropriété sélectionnée est inactive.');
+            'id_residence' => ['required', 'exists:residences,id_residence', function ($attribute, $value, $fail) {
+                $residence = Residence::find($value);
+                if ($residence && !$residence->statut) {
+                    $fail('La résidence sélectionnée est inactive.');
                 }
             }],
             'statut' => 'required|boolean',

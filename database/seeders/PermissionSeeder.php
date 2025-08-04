@@ -25,9 +25,9 @@ class PermissionSeeder extends Seeder
 
             // --- GESTION DES RÉSIDENCES ---
             ['cle' => 'residence:voir', 'nom_permission' => ['fr' => 'Voir les Résidences', 'en' => 'View Residences']],
-            ['cle' => 'residence:creer', 'nom_permission' => ['fr' => 'Créer une Résidence', 'en' => 'Create Residence']],
-            ['cle' => 'residence:modifier', 'nom_permission' => ['fr' => 'Modifier une Résidence', 'en' => 'Edit Residence']],
-            ['cle' => 'residence:supprimer', 'nom_permission' => ['fr' => 'Supprimer une Résidence', 'en' => 'Delete Residence']],
+            ['cle' => 'residence:creer', 'nom_permission' => ['fr' => 'Créer une Résidence', 'en' => 'Create Copropriete']],
+            ['cle' => 'residence:modifier', 'nom_permission' => ['fr' => 'Modifier une Résidence', 'en' => 'Edit Copropriete']],
+            ['cle' => 'residence:supprimer', 'nom_permission' => ['fr' => 'Supprimer une Résidence', 'en' => 'Delete Copropriete']],
 
             // --- GESTION DES RÔLES & PERMISSIONS ---
             ['cle' => 'role:voir', 'nom_permission' => ['fr' => 'Voir les Rôles', 'en' => 'View Roles']],

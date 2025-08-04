@@ -21,7 +21,7 @@ class Affectation extends Model
     ];
 
     /**
-     * Récupère le modèle parent de l'affectation (un Syndic, une Residence, etc.).
+     * Récupère le modèle parent de l'affectation (un Syndic, une Copropriete, etc.).
      */
     public function affectable(): MorphTo
     {

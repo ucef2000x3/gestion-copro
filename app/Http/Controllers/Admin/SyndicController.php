@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Syndic;
-use App\Models\Residence;
+use App\Models\Copropriete;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -40,17 +40,17 @@ class SyndicController extends Controller
                 ->pluck('affectable_id');
 
             // On récupère aussi les syndics liés aux résidences sur lesquelles il a un droit
-            $residences = $user->affectations()
+            $coproprietes = $user->affectations()
                 ->with('role.permissions')
-                ->where('affectable_type', \App\Models\Residence::class)
+                ->where('affectable_type', \App\Models\Copropriete::class)
                 ->get()
                 ->filter(fn($affectation) => $affectation->role->permissions->contains('cle', 'syndic:voir')) // ou residence:voir ?
                 ->pluck('affectable_id');
-            $allowedSyndicIdsFromResidences = \App\Models\Residence::whereIn('id_residence', $residences)->pluck('id_syndic');
+            $allowedSyndicIdsFromCoproprietes = \App\Models\Copropriete::whereIn('id_copropriete', $coproprietes)->pluck('id_syndic');
 
 
             // On fusionne les IDs autorisés.
-            $finalAllowedIds = $allowedSyndicIds->merge($allowedSyndicIdsFromResidences)->unique();
+            $finalAllowedIds = $allowedSyndicIds->merge($allowedSyndicIdsFromCoproprietes)->unique();
 
             // On applique le filtre à la requête
             $query->whereIn('id_syndic', $finalAllowedIds);
@@ -78,7 +78,7 @@ class SyndicController extends Controller
             'statut' => 'required|boolean',
         ]);
         Syndic::create($validated);
-        return redirect()->route('syndics.index')->with('success', 'Syndic créé avec succès !');
+        return redirect()->route('syndics.index')->with('success',__('Syndic created successfully!'));
     }
 
     public function edit(Syndic $syndic)
@@ -95,18 +95,18 @@ class SyndicController extends Controller
             'statut' => 'required|boolean',
         ]);
         $syndic->update($validated);
-        return redirect()->route('syndics.index')->with('success', 'Syndic mis à jour avec succès !');
+        return redirect()->route('syndics.index')->with('success', __('Syndic updated successfully!'));
     }
 
     public function destroy(Syndic $syndic)
     {
         $this->authorize('delete', $syndic);
 
-        if ($syndic->residences()->exists()) {
-            return back()->with('error', 'Impossible de supprimer ce syndic, il gère encore des résidences.');
+        if ($syndic->coproprietes()->exists()) {
+            return back()->with('error', __('Cannot Delete Syndic'));
         }
 
         $syndic->delete();
-        return redirect()->route('syndics.index')->with('success', 'Syndic supprimé avec succès !');
+        return redirect()->route('syndics.index')->with('success', __('Syndic deleted successfully!'));
     }
 }

@@ -15,12 +15,8 @@ return new class extends Migration
             $table->id('id_affectation');
             $table->foreignId('id_utilisateur')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('id_role')->constrained('roles', 'id_role')->onDelete('cascade');
-
-            // La relation polymorphe: affectable_id (BIGINT) et affectable_type (VARCHAR)
             $table->morphs('affectable');
-
             $table->timestamps();
-            //$table->index(['affectable_type', 'affectable_id']);
         });
     }
 

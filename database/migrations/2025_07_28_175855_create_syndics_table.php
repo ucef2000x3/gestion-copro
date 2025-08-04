@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->id('id_permission');
-            // La clé unique de la permission (non traduisible, pour le code)
-            $table->string('cle')->unique();
-            // Le nom affichable et traduisible
-            $table->json('nom_permission');
+        Schema::create('syndics', function (Blueprint $table) {
+            $table->id('id_syndic');
+            $table->string('nom_entreprise');
+            $table->boolean('statut')->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('syndics');
     }
 };

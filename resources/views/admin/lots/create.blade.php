@@ -2,7 +2,7 @@
     <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Ajouter un nouveau Lot') }}</h2></x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 md:p-8 text-gray-900">
                     <form action="{{ route('lots.store') }}" method="POST">
@@ -12,16 +12,16 @@
                                 <h2 class="text-lg font-medium leading-6 text-gray-900">Informations du Lot</h2>
                                 <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div class="sm:col-span-4">
-                                        <label for="id_copropriete" class="block text-sm font-medium leading-6 text-gray-900">Copropriété parente</label>
+                                        <label for="id_residence" class="block text-sm font-medium leading-6 text-gray-900">Résidence</label>
                                         <div class="mt-2">
-                                            <select id="id_copropriete" name="id_copropriete" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
-                                                <option value="">-- Choisir une copropriété --</option>
-                                                @foreach ($coproprietes as $copropriete)
-                                                    <option value="{{ $copropriete->id_copropriete }}" {{ old('id_copropriete') == $copropriete->id_copropriete ? 'selected' : '' }}>{{ $copropriete->nom_copropriete }}</option>
+                                            <select id="id_residence" name="id_residence" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
+                                                <option value="">-- Choisir ue résidence --</option>
+                                                @foreach ($residences as $residence)
+                                                    <option value="{{ $residence->id_residence }}" {{ old('id_residence') == $residence->id_residence ? 'selected' : '' }}>{{ $residence->nom_residence }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        @error('id_copropriete')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                                        @error('id_residence')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
                                     </div>
 
                                     <div class="sm:col-span-3">
