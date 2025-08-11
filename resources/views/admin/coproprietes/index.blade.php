@@ -44,6 +44,9 @@
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('My Role') }}
                                         </th>
                                         <th scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('Currency') }}
+                                        </th>
+                                        <th scope="col"
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('Statut') }}
                                         </th>
                                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -70,6 +73,9 @@
                                                 @else
                                                     <span class="text-gray-400">N/A ({{ __('Global Access') }})</span>
                                                 @endif
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                {{ $copropriete->devise->code ?? 'N/A' }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 @if ($copropriete->statut)
@@ -105,7 +111,7 @@
                                         <tr>
                                             <td colspan="3"
                                                 class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">
-                                                Aucune résidence trouvée à laquelle vous avez accès.
+                                                {{ __('No Condominium Found') }}
                                             </td>
                                         </tr>
                                     @endforelse

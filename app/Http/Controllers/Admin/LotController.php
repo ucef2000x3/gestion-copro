@@ -44,7 +44,7 @@ class LotController extends Controller
             'id_residence' => ['required', 'exists:residences,id_residence', function ($attribute, $value, $fail) {
                 $residence = Residence::find($value);
                 if ($residence && !$residence->statut) {
-                    $fail('La résidence sélectionnée est inactif.');
+                    $fail(__('Selected Residence Inactive'));
                 }
             }],
             'statut' => 'required|boolean',
@@ -52,7 +52,7 @@ class LotController extends Controller
 
         Lot::create($validated);
 
-        return redirect()->route('lots.index')->with('success', 'Lot créé avec succès !');
+        return redirect()->route('lots.index')->with('success', __('Lot created successfully!'));
     }
 
     /**
@@ -91,7 +91,7 @@ class LotController extends Controller
             'id_residence' => ['required', 'exists:residences,id_residence', function ($attribute, $value, $fail) {
                 $residence = Residence::find($value);
                 if ($residence && !$residence->statut) {
-                    $fail('La résidence sélectionnée est inactive.');
+                    $fail(__('Selected Residence Inactive'));
                 }
             }],
             'statut' => 'required|boolean',
@@ -99,7 +99,7 @@ class LotController extends Controller
 
         $lot->update($validated);
 
-        return redirect()->route('lots.index')->with('success', 'Lot mis à jour avec succès !');
+        return redirect()->route('lots.index')->with('success', __('Lot updated successfully!'));
     }
 
     /**
@@ -110,6 +110,6 @@ class LotController extends Controller
         $this->authorize('delete', $lot);
         // On pourrait ajouter une vérification ici (ex: si le lot est lié à un propriétaire)
         $lot->delete();
-        return redirect()->route('lots.index')->with('success', 'Lot supprimé avec succès !');
+        return redirect()->route('lots.index')->with('success', __('Lot deleted successfully!'));
     }
 }

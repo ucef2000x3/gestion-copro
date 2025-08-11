@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Gestion des Lots') }}
+            {{ __('Lots Management') }}
         </h2>
     </x-slot>
 
@@ -13,13 +13,13 @@
                     <!-- En-tête de la section -->
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
-                            <h1 class="text-xl font-semibold leading-6 text-gray-900">Lots</h1>
-                            <p class="mt-2 text-sm text-gray-700">Liste de tous les lots de résidence.</p>
+                            <h1 class="text-xl font-semibold leading-6 text-gray-900">{{ __('Lots') }}</h1>
+                            <p class="mt-2 text-sm text-gray-700">{{ __('Lots List') }}</p>
                         </div>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                             @can('create', App\Models\Lot::class)
                                 <a href="{{ route('lots.create') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                                    Ajouter un lot
+                                    {{ __('Add Lot') }}
                                 </a>
                             @endcan
                         </div>
@@ -36,11 +36,11 @@
                                 <table class="min-w-full divide-y divide-gray-300">
                                     <thead class="bg-gray-50">
                                     <tr>
-                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Numéro du Lot</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Résidence</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tantièmes</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Statut</th>
-                                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"><span class="sr-only">Actions</span></th>
+                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">{{ __('Lot Number') }}</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('Residence') }}</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('Tantiemes') }}</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">{{ __('Status') }}</th>
+                                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"><span class="sr-only">{{ __('Actions') }}</span></th>
                                     </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -59,20 +59,20 @@
                                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                                 <div class="flex items-center justify-end space-x-4">
                                                     @can('update', $lot)
-                                                        <a href="{{ route('lots.edit', $lot) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                                        <a href="{{ route('lots.edit', $lot) }}" class="text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a>
                                                     @endcan
                                                     @can('delete', $lot)
-                                                        <form action="{{ route('lots.destroy', $lot) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr ?');">
+                                                        <form action="{{ route('lots.destroy', $lot) }}" method="POST" onsubmit="return confirm('{{ __('Sure ?') }}');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
+                                                            <button type="submit" class="text-red-600 hover:text-red-900">{{ __('Delete') }}</button>
                                                         </form>
                                                     @endcan
                                                 </div>
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr><td colspan="5" class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">Aucun lot trouvé.</td></tr>
+                                        <tr><td colspan="5" class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ __('No Lot Found') }}</td></tr>
                                     @endforelse
                                     </tbody>
                                 </table>

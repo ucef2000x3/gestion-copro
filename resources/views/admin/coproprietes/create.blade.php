@@ -63,6 +63,16 @@
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="sm:col-span-2">
+                                <label for="id_devise" class="block text-sm font-medium">Devise</label>
+                                <select id="id_devise" name="id_devise" class="mt-2 block w-full rounded-md ring-1">
+                                    <option value="">-- Choisir --</option>
+                                    @foreach ($devises as $devise)
+                                        <option value="{{ $devise->id_devise }}" {{ old('id_devise') == $devise->id_devise ? 'selected' : '' }}>{{ $devise->nom }} ({{ $devise->symbole }})</option>
+                                    @endforeach
+                                </select>
+                                @error('id_devise')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                            </div>
                         </div>
 
                         <!-- Actions du formulaire -->

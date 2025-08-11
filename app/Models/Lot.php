@@ -33,4 +33,10 @@ class Lot extends Model
         // On précise la clé étrangère que la relation doit utiliser.
         return $this->belongsTo(Residence::class, 'id_residence');
     }
+
+    // ... dans la classe Lot
+    public function appelsDeFonds(): HasMany
+    {
+        return $this->hasMany(AppelDeFonds::class, 'id_lot');
+    }
 }

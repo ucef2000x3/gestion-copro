@@ -13,6 +13,14 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserAffectationController;
 use App\Http\Controllers\Admin\LotProprietaireController;
+use App\Http\Controllers\Admin\ExerciceComptableController;
+use App\Http\Controllers\Admin\TypeDePosteController;
+use App\Http\Controllers\Admin\BudgetController;
+use App\Http\Controllers\Admin\FournisseurController;
+use App\Http\Controllers\Admin\FactureController;
+use App\Http\Controllers\Admin\GenerationAppelFondsController;
+use App\Http\Controllers\Admin\AppelDeFondsController;
+use App\Http\Controllers\Admin\FactureImputationController;
 
 
 /*
@@ -27,6 +35,7 @@ use App\Http\Controllers\Admin\LotProprietaireController;
 */
 
 // Route pour la page d'accueil publique
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -90,8 +99,48 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/lots/{lot}/proprietaires', [LotProprietaireController::class, 'store'])->name('lots.proprietaires.store');
     Route::patch('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'update'])->name('lots.proprietaires.update');
     Route::delete('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'destroy'])->name('lots.proprietaires.destroy');
+    Route::resource('/admin/exercices', ExerciceComptableController::class);
+    Route::resource('/admin/types-de-poste', TypeDePosteController::class)->names('types-de-poste');
 
+    Route::get('/admin/exercices/{exercice}/budget', [BudgetController::class, 'index'])->name('exercices.budget.index');
+    Route::post('/admin/exercices/{exercice}/budget', [BudgetController::class, 'store'])->name('exercices.budget.store');
+    Route::delete('/admin/budget-postes/{poste}', [BudgetController::class, 'destroy'])->name('budget-postes.destroy');
+    Route::resource('/admin/fournisseurs', FournisseurController::class);
+    Route::resource('/admin/factures', FactureController::class);
 
+    // Route pour la liste des appels de fonds
+    Route::get('/admin/appels-de-fonds', [AppelDeFondsController::class, 'index'])->name('appels-de-fonds.index');
+    // Affiche la page avec le formulaire de génération
+    Route::get('/admin/exercices/{exercice}/generer-appels', [GenerationAppelFondsController::class, 'create'])->name('exercices.appels.create');
+    // Traite la soumission du formulaire et génère les appels
+    Route::post('/admin/exercices/{exercice}/generer-appels', [GenerationAppelFondsController::class, 'store'])->name('exercices.appels.store');
+    // Route pour sauvegarder l'ensemble de l'imputation d'une facture
+    Route::post('/admin/factures/{facture}/imputations', [FactureImputationController::class, 'store'])->name('factures.imputations.store');
+
+    Route::get('/api/coproprietes/{copropriete}/exercices-ouverts', function (\App\Models\Copropriete $copropriete) {
+        if (auth()->user()->cannot('view', $copropriete)) {
+            abort(403);
+        }
+
+        // CORRECTION : On charge les exercices ET, pour chaque exercice,
+        // on charge ses postes budgétaires avec le libellé du type de poste.
+        $exercices = $copropriete->exercicesComptables()
+            ->where('statut', \App\Enums\StatutExercice::Ouvert)
+            ->with('budgetPostes.typeDePoste') // <<<--- LIGNE AJOUTÉE/MODIFIÉE
+            ->orderBy('date_debut', 'desc')
+            ->get();
+
+        return response()->json($exercices);
+    })->name('api.coproprietes.exercices');
+
+    // Route N°2 : Récupère les postes budgétaires pour un exercice
+    Route::get('/api/exercices/{exercice}/budget-postes', function (\App\Models\ExerciceComptable $exercice) {
+        if (auth()->user()->cannot('view', $exercice->copropriete)) abort(403);
+
+        $postes = $exercice->budgetPostes()->with('typeDePoste')->get();
+
+        return response()->json($postes);
+    })->name('api.exercices.budget-postes');
 });
 
 

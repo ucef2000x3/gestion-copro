@@ -14,10 +14,15 @@ class ProprietaireFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
-            //
+            'nom' => $this->faker->lastName,
+            'prenom' => $this->faker->firstName,
+            'email' => $this->faker->unique()->safeEmail,
+            'telephone_contact' => $this->faker->phoneNumber,
+            'adresse_postale' => $this->faker->streetAddress,
+            'code_postal' => $this->faker->postcode,
+            'ville' => $this->faker->city,
         ];
     }
 }

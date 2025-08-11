@@ -14,10 +14,10 @@ class LotFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
-            //
+            'numero_lot' => strtoupper($this->faker->randomLetter) . $this->faker->numberBetween(1, 200),
+            'nombre_tantiemes' => $this->faker->numberBetween(5, 500),
         ];
     }
 }

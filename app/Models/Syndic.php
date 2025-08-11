@@ -30,10 +30,17 @@ class Syndic extends Model
         return $this->hasMany(Copropriete::class, 'id_syndic');
     }
 
-
     public function affectations(): MorphMany
     {
         return $this->morphMany(Affectation::class, 'affectable');
+    }
+
+    /**
+     * Récupère toutes les factures gérées par ce syndic.
+     */
+    public function factures(): HasMany
+    {
+        return $this->hasMany(Facture::class, 'id_syndic');
     }
 
 

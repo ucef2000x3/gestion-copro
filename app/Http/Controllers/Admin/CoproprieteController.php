@@ -7,6 +7,7 @@ use App\Models\Copropriete;
 use App\Models\Residence;
 use App\Models\Syndic;
 use Illuminate\Http\Request;
+use App\Models\Devise;
 
 class CoproprieteController extends Controller
 {
@@ -22,7 +23,8 @@ class CoproprieteController extends Controller
         // Pour l'instant, si un utilisateur a le droit de voir la page, on lui montre tout.
         // Le filtrage fin par périmètre est une optimisation que nous pourrons ajouter plus tard.
         // `with('syndic')` optimise en chargeant les syndics associés en une seule requête.
-        $coproprietes = Copropriete::with('syndic')->latest()->paginate(10);
+        // On charge aussi la devise pour l'affichage dans la liste
+        $coproprietes = Copropriete::with('syndic', 'devise')->latest()->paginate(10);
 
         // 3. Renvoie la vue avec les données.
         return view('admin.coproprietes.index', compact('coproprietes'));
@@ -39,9 +41,10 @@ class CoproprieteController extends Controller
 
         // CORRECTION : Pour créer une copropriété, on a besoin de la liste des syndics.
         $syndics = Syndic::actif()->orderBy('nom_entreprise')->get();
+        $devises = Devise::where('statut', true)->orderBy('nom')->get();
 
         // 3. On renvoie la vue de création en lui passant UNIQUEMENT la variable `$residences`.
-        return view('admin.coproprietes.create', compact('syndics'));
+        return view('admin.coproprietes.create', compact('syndics', 'devises'));
     }
 
     /**
@@ -55,6 +58,7 @@ class CoproprieteController extends Controller
         // 2. Valide les données envoyées par le formulaire.
         $validated = $request->validate([
             'nom_copropriete' => 'required|string|max:255',
+            'id_devise' => 'required|exists:devises,id_devise',
             'id_syndic' => ['required', 'exists:syndics,id_syndic', function ($attribute, $value, $fail) {
                 $syndic = Syndic::find($value);
                 // Règle de validation personnalisée : le syndic choisi doit être actif.
@@ -82,9 +86,10 @@ class CoproprieteController extends Controller
 
         // 2. Récupère tous les syndics pour le menu déroulant.
         $syndics = Syndic::orderBy('nom_entreprise')->get();
+        $devises = Devise::where('statut', true)->orderBy('nom')->get();
 
         // 3. Renvoie la vue du formulaire de modification avec les données de la copropriété ET la liste des syndics.
-        return view('admin.coproprietes.edit', compact('copropriete', 'syndics'));
+        return view('admin.coproprietes.edit', compact('copropriete', 'syndics', 'devises'));
     }
 
     /**
@@ -98,6 +103,7 @@ class CoproprieteController extends Controller
         // 2. Valide les données du formulaire de modification.
         $validated = $request->validate([
             'nom_copropriete' => 'required|string|max:255',
+            'id_devise' => 'required|exists:devises,id_devise',
             'id_syndic' => ['required', 'exists:syndics,id_syndic', function ($attribute, $value, $fail) {
                 $syndic = Syndic::find($value);
                 if ($syndic && $syndic->statut === false) {

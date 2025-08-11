@@ -14,10 +14,7 @@ class ResidenceFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
+    public function definition(): array {
+        return [ 'nom_residence' => 'Résidence ' . $this->faker->streetName ];
     }
 }

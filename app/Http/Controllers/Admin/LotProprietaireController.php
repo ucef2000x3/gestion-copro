@@ -38,7 +38,7 @@ class LotProprietaireController extends Controller
             'pourcentage_possession' => $validated['pourcentage_possession']
         ]);
 
-        return back()->with('success', 'Propriétaire ajouté au lot avec succès.');
+        return back()->with('success', __('Owner Lot Added'));
     }
 
     /**
@@ -70,7 +70,7 @@ class LotProprietaireController extends Controller
             'pourcentage_possession' => $validated['pourcentage_possession']
         ]);
 
-        return back()->with('success', 'Pourcentage mis à jour avec succès.');
+        return back()->with('success', __('Percentage Updated'));
     }
 
     /**
@@ -83,6 +83,6 @@ class LotProprietaireController extends Controller
         // `detach` est la méthode pour supprimer de la table pivot.
         $lot->proprietaires()->detach($proprietaire->id_proprietaire);
 
-        return back()->with('success', 'Propriétaire retiré du lot avec succès.');
+        return back()->with('success', __('Owner Withdraw'));
     }
 }

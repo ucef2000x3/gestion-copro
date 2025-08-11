@@ -14,10 +14,7 @@ class SyndicFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
+    public function definition(): array {
+        return [ 'nom_entreprise' => $this->faker->company . ' Syndic' ];
     }
 }

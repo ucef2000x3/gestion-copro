@@ -70,6 +70,16 @@
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="sm:col-span-2">
+                                <label for="id_devise" class="block text-sm font-medium">Devise</label>
+                                <select id="id_devise" name="id_devise" class="mt-2 block w-full rounded-md ring-1">
+                                    <option value="">-- Choisir --</option>
+                                    @foreach ($devises as $devise)
+                                        <option value="{{ $devise->id_devise }}" @if(old('id_devise', $copropriete->id_devise) == $devise->id_devise) selected @endif>{{ $devise->nom }} ({{ $devise->symbole }})</option>
+                                    @endforeach
+                                </select>
+                                @error('id_devise')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                            </div>
                             <div class="mt-6">
                                 <label for="statut" class="block text-sm font-medium leading-6 text-gray-900">{{ __('Status') }}</label>
                                 <select id="statut" name="statut" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
