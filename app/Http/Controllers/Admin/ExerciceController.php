@@ -6,7 +6,7 @@ use App\Enums\StatutExercice;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Controllers\Controller;
 use App\Models\Copropriete;
-use App\Models\ExerciceComptable;
+use App\Models\Exercice;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -14,34 +14,34 @@ class ExerciceComptableController extends Controller
 {
     public function index()
     {
-        $this->authorize('viewAny', ExerciceComptable::class);
-        $exercices = ExerciceComptable::with('copropriete')->latest()->paginate(15);
+        $this->authorize('viewAny', Exercice::class);
+        $exercices = Exercice::with('copropriete')->latest()->paginate(15);
         return view('admin.exercices.index', compact('exercices'));
     }
 
     public function create()
     {
-        $this->authorize('create', ExerciceComptable::class);
+        $this->authorize('create', Exercice::class);
         $coproprietes = Copropriete::actif()->orderBy('nom_copropriete')->get();
         return view('admin.exercices.create', compact('coproprietes'));
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create', ExerciceComptable::class);
+        $this->authorize('create', Exercice::class);
         $validated = $this->validateExercice($request);
-        ExerciceComptable::create($validated);
+        Exercice::create($validated);
         return redirect()->route('exercices.index')->with('success', 'Exercice comptable créé avec succès !');
     }
 
-    public function edit(ExerciceComptable $exercice)
+    public function edit(Exercice $exercice)
     {
         $this->authorize('update', $exercice);
         $coproprietes = Copropriete::orderBy('nom_copropriete')->get();
         return view('admin.exercices.edit', compact('exercice', 'coproprietes'));
     }
 
-    public function update(Request $request, ExerciceComptable $exercice)
+    public function update(Request $request, Exercice $exercice)
     {
         $this->authorize('update', $exercice);
         $validated = $this->validateExercice($request, $exercice);
@@ -49,7 +49,7 @@ class ExerciceComptableController extends Controller
         return redirect()->route('exercices.index')->with('success', 'Exercice comptable mis à jour avec succès !');
     }
 
-    public function destroy(ExerciceComptable $exercice)
+    public function destroy(Exercice $exercice)
     {
         $this->authorize('delete', $exercice);
         // Ajouter une vérification: ne pas supprimer si des budgets/factures sont liés.
@@ -60,7 +60,7 @@ class ExerciceComptableController extends Controller
     /**
      * Centralise les règles de validation pour les exercices.
      */
-    protected function validateExercice(Request $request, ExerciceComptable $exercice = null): array
+    protected function validateExercice(Request $request, Exercice $exercice = null): array
     {
         $coproprieteId = $request->input('id_copropriete');
 

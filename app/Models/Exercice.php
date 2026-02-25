@@ -40,4 +40,11 @@ class ExerciceComptable extends Model
     {
         return $this->hasMany(AppelDeFonds::class, 'id_exercice');
     }
+
+
+    public function reglementsProprietaires() {
+        return $this->hasMany(ReglementProprietaire::class, 'id_exercice');
+    }
+
+
 }
