@@ -18,7 +18,7 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                         <tr>
-                            <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Libellé</th>
+                            <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Libellé / Exercice</th>
                             <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Lot / Copropriété</th>
                             <th class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">Montant Appelé</th>
                             <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date Appel</th>
@@ -29,12 +29,17 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                         @forelse ($appels as $appel)
                             <tr>
-                                <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ $appel->libelle }}</td>
-                                <td class="px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-900">Lot {{ $appel->lot->numero_lot }}</div>
-                                    <div class="text-gray-500">{{ $appel->lot->copropriete->nom_copropriete ?? 'N/A' }}</div>
+                                <td class="py-4 pl-4 pr-3 text-sm sm:pl-0">
+                                    <div class="font-medium text-gray-900">{{ $appel->libelle }}</div>
+                                    {{-- NOUVEAU : Affichage de l'exercice --}}
+                                    <div class="text-gray-500">{{ $appel->exercice->libelle ?? 'N/A' }}</div>
                                 </td>
-                                <td class="px-3 py-4 text-sm text-gray-900 text-right font-semibold">{{ number_format($appel->montant_appele, 2, ',', ' ') }} €</td>
+                                <td class="px-3 py-4 text-sm text-gray-500">
+                                    <div class="font-medium text-gray-900">Lot {{ $appel->lot->numero_lot ?? 'N/A' }}</div>
+                                    {{-- NOUVEAU : Affichage de la copropriété --}}
+                                    <div class="text-gray-500">{{ $appel->lot->residence->copropriete->nom_copropriete ?? 'N/A' }}</div>
+                                </td>
+                                <td class="px-3 py-4 text-sm text-gray-900 text-right font-semibold">{{ number_format($appel->montant_total_lot, 2, ',', ' ') }} €</td>
                                 <td class="px-3 py-4 text-sm text-gray-500">{{ $appel->date_appel->format('d/m/Y') }}</td>
                                 <td class="px-3 py-4 text-sm text-gray-500">{{ $appel->date_echeance->format('d/m/Y') }}</td>
                                 <td class="px-3 py-4 text-sm text-gray-500">{{ $appel->statut }}</td>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('id_copropriete')->constrained('coproprietes', 'id_copropriete');
 
 // Une facture est liée à un exercice pour le reporting comptable
-            $table->foreignId('id_exercice')->constrained('exercices_comptables', 'id_exercice');
+            $table->foreignId('id_exercice')->constrained('exercices', 'id_exercice');
 
             $table->foreignId('id_budget_poste')->nullable()->constrained('budget_postes', 'id_poste');
 

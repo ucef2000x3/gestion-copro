@@ -28,8 +28,7 @@
                                             <input type="text"
                                                    name="libelle"
                                                    id="libelle"
-                                                   value="{{ old('libelle') }}" {{-- Pour create.blade.php --}}
-                                                   {{-- value="{{ old('libelle', $exercice->libelle) }}" --}} {{-- Pour edit.blade.php --}}
+                                                   value="{{ old('libelle', $exercice->libelle) }}"
                                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                                                    placeholder="Ex: Exercice Annuel 2025">
                                         </div>

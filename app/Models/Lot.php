@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Concerns\HasStatus;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lot extends Model
 {
@@ -13,10 +14,6 @@ class Lot extends Model
     protected $fillable = ['numero_lot', 'nombre_tantiemes', 'id_residence', 'statut'];
     protected $casts = ['statut' => 'boolean', 'nombre_tantiemes' => 'integer'];
 
-    public function residences(): BelongsTo
-    {
-        return $this->belongsTo(Residence::class, 'id_residence');
-    }
 
     /**
      * Les propriétaires qui possèdent ce lot.

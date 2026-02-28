@@ -11,8 +11,10 @@ use App\Models\Permission;
 use App\Models\Residence;
 use App\Models\Lot;
 use App\Models\Proprietaire;
-use App\Models\ExerciceComptable;
+use App\Models\Exercice;
 use App\Models\Fournisseur;
+use App\Models\OperationDiverse;
+use App\Models\CompteBancaire;
 
 // Policies
 use App\Policies\SyndicPolicy;
@@ -23,8 +25,10 @@ use App\Policies\UserPolicy;
 use App\Policies\ResidencePolicy;
 use App\Policies\LotPolicy;
 use App\Policies\ProprietairePolicy;
-use App\Policies\ExerciceComptablePolicy;
+use App\Policies\ExercicePolicy;
 use App\Policies\FournisseurPolicy;
+use App\Policies\OperationDiversePolicy;
+use App\Policies\CompteBancairePolicy;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 // =========================================================
@@ -48,8 +52,10 @@ class AuthServiceProvider extends ServiceProvider
         Residence::class => ResidencePolicy::class,
         Lot::class => LotPolicy::class,
         Proprietaire::class => ProprietairePolicy::class,
-        ExerciceComptable::class => ExerciceComptablePolicy::class,
+        Exercice::class => ExercicePolicy::class,
         Fournisseur::class => FournisseurPolicy::class,
+        OperationDiverse::class => OperationDiversePolicy::class,
+        CompteBancaire::class => CompteBancairePolicy::class,
         // C'est ici que vous ajouterez vos futures policies
     ];
 

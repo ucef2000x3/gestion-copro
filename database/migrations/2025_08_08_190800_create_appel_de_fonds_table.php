@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_appel_de_fond');
 
             $table->foreignId('id_lot')->constrained('lots', 'id_lot');
-            $table->foreignId('id_exercice')->constrained('exercices_comptables', 'id_exercice');
+            $table->foreignId('id_exercice')->constrained('exercices', 'id_exercice');
 
             $table->string('libelle'); // Ex: "Appel de fonds T1 2025", "Régularisation charges 2024"
             $table->decimal('montant_appele', 15, 2);

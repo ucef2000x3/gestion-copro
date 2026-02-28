@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('exercices_comptables', function (Blueprint $table) {
+        Schema::table('exercices', function (Blueprint $table) {
             //
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('exercices_comptables', function (Blueprint $table) {
+        Schema::table('exercices', function (Blueprint $table) {
             //
         });
     }

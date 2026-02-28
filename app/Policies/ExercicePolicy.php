@@ -6,7 +6,7 @@ use App\Models\Exercice;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ExerciceComptablePolicy
+class ExercicePolicy
 {
     public function viewAny(User $user): bool
     {

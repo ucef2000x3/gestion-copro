@@ -13,14 +13,14 @@ class BudgetPoste extends Model
     protected $fillable = ['id_exercice', 'id_type_poste', 'montant_previsionnel'];
     protected $casts = ['montant_previsionnel' => 'decimal:2'];
 
-    public function exerciceComptable(): BelongsTo
+    public function exercice(): BelongsTo
     {
-        return $this->belongsTo(ExerciceComptable::class, 'id_exercice');
+        return $this->belongsTo(Exercice::class, 'id_exercice', 'id_exercice');
     }
 
     public function typeDePoste(): BelongsTo
     {
-        return $this->belongsTo(TypeDePoste::class, 'id_type_poste');
+        return $this->belongsTo(TypeDePoste::class, 'id_type_poste', 'id_type_poste');
     }
 
     public function factures(): BelongsToMany

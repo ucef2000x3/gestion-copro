@@ -10,7 +10,7 @@ use App\Models\Exercice;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class ExerciceComptableController extends Controller
+class ExerciceController extends Controller
 {
     public function index()
     {
@@ -71,7 +71,7 @@ class ExerciceComptableController extends Controller
                 'required',
                 'date',
                 // Règle de non-chevauchement
-                Rule::unique('exercices_comptables')->where(function ($query) use ($coproprieteId, $request) {
+                Rule::unique('exercices')->where(function ($query) use ($coproprieteId, $request) {
                     return $query->where('id_copropriete', $coproprieteId)
                         ->where(function ($q) use ($request) {
                             $q->whereBetween('date_debut', [$request->date_debut, $request->date_fin])

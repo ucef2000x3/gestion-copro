@@ -130,9 +130,9 @@
                     const selectedCopro = this.coproprietesData.find(c => c.id_copropriete == coproId);
                     console.log('Objet Copropriété trouvé:', selectedCopro);
 
-                    if (selectedCopro && selectedCopro.exercices_comptables) {
+                    if (selectedCopro && selectedCopro.exercices) {
                         console.log('Exercices trouvés dans la copro:', selectedCopro.exercices_comptables);
-                        this.exercices = selectedCopro.exercices_comptables;
+                        this.exercices = selectedCopro.exercices;
                     } else {
                         console.error('Clé "exercices_comptables" non trouvée ou vide dans l\'objet copro.');
                     }

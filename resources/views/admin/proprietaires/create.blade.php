@@ -77,6 +77,15 @@
                                         </select>
                                     </div>
 
+                                    <div class="sm:col-span-3">
+                                        <label for="compte_comptable" class="block text-sm font-medium leading-6 text-gray-900">Compte Comptable</label>
+                                        <div class="mt-2">
+                                            <input type="text" name="compte_comptable" id="compte_comptable" value="{{ old('compte_comptable') }}" class="block w-full rounded-md border-0 py-1.5 ring-1" placeholder="Ex: 401002">
+                                        </div>
+                                        <p class="mt-1 text-xs text-gray-500">Optionnel. Si vide, le compte général 401000 sera utilisé.</p>
+                                        @error('compte_comptable')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                                    </div>
+
                                     <div class="col-span-full border-t pt-8 mt-4">
                                         <label for="id_utilisateur" class="block text-sm font-medium leading-6 text-gray-900">{{ __('Link to User Account') }} ({{ __('Optional') }})</label>
                                         <p class="mt-1 text-sm text-gray-500">{{ __('Allows the owner to log in to the extranet.') }}</p>

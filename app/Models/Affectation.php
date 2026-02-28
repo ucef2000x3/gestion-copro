@@ -33,7 +33,7 @@ class Affectation extends Model
      */
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
     }
 
     /**
@@ -41,6 +41,6 @@ class Affectation extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_utilisateur');
+        return $this->belongsTo(User::class, 'id_utilisateur', 'id');
     }
 }

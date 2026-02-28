@@ -55,15 +55,16 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean',
         ];
     }
 
     /**
      * Définit la relation : Un Utilisateur a une Langue préférée.
      */
-    public function langue(): BelongsTo
+        public function langue(): BelongsTo
     {
-        return $this->belongsTo(Langue::class, 'id_langue_preferee');
+        return $this->belongsTo(Langue::class, 'id_langue_preferee', 'id_langue');
     }
 
     /**
@@ -149,9 +150,10 @@ class User extends Authenticatable
         return $this->is_super_admin;
     }
 
+
     public function affectations(): HasMany
     {
-        return $this->hasMany(Affectation::class, 'id_utilisateur');
+        return $this->hasMany(Affectation::class, 'id_utilisateur', 'id');
     }
 
     // ... dans la classe User
@@ -215,7 +217,7 @@ class User extends Authenticatable
     {
         // Un User A UN (hasOne) profil Proprietaire.
         // La clé étrangère est 'id_utilisateur' dans la table 'proprietaires'.
-        return $this->hasOne(Proprietaire::class, 'id_utilisateur');
+        return $this->hasOne(Proprietaire::class, 'id_utilisateur', 'id');
     }
 
 

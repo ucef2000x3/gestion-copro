@@ -14,6 +14,6 @@ class Devise extends Model
 
     public function coproprietes(): HasMany
     {
-        return $this->hasMany(Copropriete::class, 'id_devise');
+        return $this->hasMany(Copropriete::class, 'id_devise', 'id_devise');
     }
 }

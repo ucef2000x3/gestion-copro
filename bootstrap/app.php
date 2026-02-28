@@ -32,6 +32,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
     })
+    ->withCommands([
+        __DIR__.'/../app/Console/Commands', // <<< AJOUTEZ CETTE LIGNE
+        __DIR__.'/../routes/console.php',
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

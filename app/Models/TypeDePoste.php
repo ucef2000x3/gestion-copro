@@ -10,11 +10,11 @@ class TypeDePoste extends Model
     use HasFactory, HasStatus;
     protected $table = 'types_de_poste';
     protected $primaryKey = 'id_type_poste';
-    protected $fillable = ['id_copropriete', 'libelle', 'code_comptable', 'statut'];
+    protected $fillable = ['id_copropriete', 'libelle', 'code_comptable', 'code_comptable', 'statut'];
 
     public function copropriete(): BelongsTo
     {
-        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+        return $this->belongsTo(Copropriete::class, 'id_copropriete', 'id_copropriete');
     }
 
     /**
@@ -22,6 +22,6 @@ class TypeDePoste extends Model
      */
     public function budgetPostes(): HasMany
     {
-        return $this->hasMany(BudgetPoste::class, 'id_exercice');
+        return $this->hasMany(BudgetPoste::class, 'id_type_poste', 'id_type_poste');
     }
 }

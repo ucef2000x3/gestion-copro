@@ -9,11 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         // Étape 1: On supprime l'ancienne contrainte de valeur par défaut
-        DB::statement('ALTER TABLE exercices_comptables ALTER COLUMN statut DROP DEFAULT;');
+        DB::statement('ALTER TABLE exercices ALTER COLUMN statut DROP DEFAULT;');
 
         // Étape 2: On change le type de la colonne en convertissant les valeurs existantes
         DB::statement("
-            ALTER TABLE exercices_comptables
+            ALTER TABLE exercices
             ALTER COLUMN statut TYPE smallint
             USING CASE
                 WHEN statut = 'Ouvert' THEN 1
@@ -24,16 +24,16 @@ return new class extends Migration
         ");
 
         // Étape 3: On ajoute la nouvelle contrainte de valeur par défaut (un entier)
-        DB::statement('ALTER TABLE exercices_comptables ALTER COLUMN statut SET DEFAULT 1;');
+        DB::statement('ALTER TABLE exercices ALTER COLUMN statut SET DEFAULT 1;');
     }
 
     public function down(): void
     {
         // Opérations inverses
-        DB::statement('ALTER TABLE exercices_comptables ALTER COLUMN statut DROP DEFAULT;');
+        DB::statement('ALTER TABLE exercices ALTER COLUMN statut DROP DEFAULT;');
 
         DB::statement("
-            ALTER TABLE exercices_comptables
+            ALTER TABLE exercices
             ALTER COLUMN statut TYPE varchar(255)
             USING CASE
                 WHEN statut = 1 THEN 'Ouvert'
@@ -43,6 +43,6 @@ return new class extends Migration
             END;
         ");
 
-        DB::statement("ALTER TABLE exercices_comptables ALTER COLUMN statut SET DEFAULT 'Ouvert';");
+        DB::statement("ALTER TABLE exercices ALTER COLUMN statut SET DEFAULT 'Ouvert';");
     }
 };

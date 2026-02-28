@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserAffectationController;
 use App\Http\Controllers\Admin\LotProprietaireController;
-use App\Http\Controllers\Admin\ExerciceComptableController;
+use App\Http\Controllers\Admin\ExerciceController;
 use App\Http\Controllers\Admin\TypeDePosteController;
 use App\Http\Controllers\Admin\BudgetController;
 use App\Http\Controllers\Admin\FournisseurController;
@@ -21,6 +21,11 @@ use App\Http\Controllers\Admin\FactureController;
 use App\Http\Controllers\Admin\GenerationAppelFondsController;
 use App\Http\Controllers\Admin\AppelDeFondsController;
 use App\Http\Controllers\Admin\FactureImputationController;
+use App\Http\Controllers\Admin\ReglementProprietaireController;
+use App\Http\Controllers\Admin\FactureReglementController;
+use App\Http\Controllers\Admin\CompteProprietaireController;
+use App\Http\Controllers\Admin\OperationDiverseController;
+use App\Http\Controllers\Admin\CompteBancaireController;
 
 
 /*
@@ -99,7 +104,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/lots/{lot}/proprietaires', [LotProprietaireController::class, 'store'])->name('lots.proprietaires.store');
     Route::patch('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'update'])->name('lots.proprietaires.update');
     Route::delete('/admin/lots/{lot}/proprietaires/{proprietaire}', [LotProprietaireController::class, 'destroy'])->name('lots.proprietaires.destroy');
-    Route::resource('/admin/exercices', ExerciceComptableController::class);
+    Route::resource('/admin/exercices', ExerciceController::class);
     Route::resource('/admin/types-de-poste', TypeDePosteController::class)->names('types-de-poste');
 
     Route::get('/admin/exercices/{exercice}/budget', [BudgetController::class, 'index'])->name('exercices.budget.index');
@@ -124,7 +129,7 @@ Route::middleware('auth')->group(function () {
 
         // CORRECTION : On charge les exercices ET, pour chaque exercice,
         // on charge ses postes budgétaires avec le libellé du type de poste.
-        $exercices = $copropriete->exercicesComptables()
+        $exercices = $copropriete->exercices()
             ->where('statut', \App\Enums\StatutExercice::Ouvert)
             ->with('budgetPostes.typeDePoste') // <<<--- LIGNE AJOUTÉE/MODIFIÉE
             ->orderBy('date_debut', 'desc')
@@ -134,13 +139,36 @@ Route::middleware('auth')->group(function () {
     })->name('api.coproprietes.exercices');
 
     // Route N°2 : Récupère les postes budgétaires pour un exercice
-    Route::get('/api/exercices/{exercice}/budget-postes', function (\App\Models\ExerciceComptable $exercice) {
+    Route::get('/api/exercices/{exercice}/budget-postes', function (\App\Models\Exercice $exercice) {
         if (auth()->user()->cannot('view', $exercice->copropriete)) abort(403);
 
         $postes = $exercice->budgetPostes()->with('typeDePoste')->get();
 
         return response()->json($postes);
     })->name('api.exercices.budget-postes');
+
+    Route::resource('/admin/reglements-proprietaires', ReglementProprietaireController::class);
+
+    Route::post('/admin/factures/{facture}/reglements', [FactureReglementController::class, 'store'])->name('factures.reglements.store');
+    Route::delete('/admin/reglements-facture/{reglement}', [FactureReglementController::class, 'destroy'])->name('factures.reglements.destroy');
+
+    // --- GESTION DES RÈGLEMENTS DE FACTURE ---
+    // Affiche la page de gestion des règlements pour une facture
+    Route::get('/admin/factures/{facture}/reglements', [FactureReglementController::class, 'index'])->name('factures.reglements.index');
+    // Enregistre un nouveau règlement
+    Route::post('/admin/factures/{facture}/reglements', [FactureReglementController::class, 'store'])->name('factures.reglements.store');
+    // Supprime un règlement
+    Route::delete('/admin/reglements-facture/{reglement}', [FactureReglementController::class, 'destroy'])->name('factures.reglements.destroy');
+
+    Route::middleware('auth')->group(function () {
+        // ... (routes existantes)
+        Route::get('/admin/proprietaires/{proprietaire}/compte', [CompteProprietaireController::class, 'index'])->name('proprietaires.compte.index');
+        Route::post('/admin/proprietaires/{proprietaire}/compte/lettrer', [CompteProprietaireController::class, 'lettrer'])->name('proprietaires.compte.lettrer');
+    });
+
+    Route::resource('/admin/operations-diverses', OperationDiverseController::class);
+
+    Route::resource('/admin/comptes-bancaires', CompteBancaireController::class);
 });
 
 

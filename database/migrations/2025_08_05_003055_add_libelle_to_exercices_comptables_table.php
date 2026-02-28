@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('exercices_comptables', function (Blueprint $table) {
+        Schema::table('exercices', function (Blueprint $table) {
             // On ajoute la colonne `libelle` après `id_copropriete` pour une meilleure or
             //ganisation
             $table->string('libelle')->nullable()->after('id_copropriete');
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('exercices_comptables', function (Blueprint $table) {
+        Schema::table('exercices', function (Blueprint $table) {
             $table->dropColumn('libelle');
         });
     }

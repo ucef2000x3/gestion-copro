@@ -27,12 +27,12 @@ class Syndic extends Model
      */
     public function coproprietes(): HasMany
     {
-        return $this->hasMany(Copropriete::class, 'id_syndic');
+        return $this->hasMany(Copropriete::class, 'id_syndic', 'id_syndic');
     }
 
     public function affectations(): MorphMany
     {
-        return $this->morphMany(Affectation::class, 'affectable');
+        return $this->morphMany(Affectation::class, 'affectable', 'affectable');
     }
 
     /**
@@ -40,7 +40,7 @@ class Syndic extends Model
      */
     public function factures(): HasMany
     {
-        return $this->hasMany(Facture::class, 'id_syndic');
+        return $this->hasMany(Facture::class, 'id_syndic', 'id_syndic');
     }
 
 

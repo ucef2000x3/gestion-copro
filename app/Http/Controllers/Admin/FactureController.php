@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Facture;
 use App\Models\Fournisseur;
 use App\Models\Copropriete;
-use App\Models\ExerciceComptable;
+use App\Models\Exercice;
 use Illuminate\Http\Request;
 class FactureController extends Controller
 {
@@ -22,7 +22,7 @@ class FactureController extends Controller
         $fournisseurs = Fournisseur::actif()->orderBy('nom')->get();
         //$coproprietes = Copropriete::actif()->orderBy('nom_copropriete')->get();
         $coproprietes = Copropriete::actif()
-            ->with(['exercicesComptables' => function ($query) { // <<<--- LE NOM EST ICI
+            ->with(['exercices' => function ($query) { // <<<--- LE NOM EST ICI
                 $query->where('statut', \App\Enums\StatutExercice::Ouvert)
                     ->with('budgetPostes.typeDePoste');
             }])
@@ -40,7 +40,7 @@ class FactureController extends Controller
         $validated = $request->validate([
             'id_fournisseur' => 'required|exists:fournisseurs,id_fournisseur',
             'id_copropriete' => 'required|exists:coproprietes,id_copropriete',
-            'id_exercice' => 'required|exists:exercices_comptables,id_exercice',
+            'id_exercice' => 'required|exists:exercices,id_exercice',
             'id_budget_poste' => 'nullable|exists:budget_postes,id_poste',
             'objet' => 'required|string|max:255',
             'numero_facture' => 'nullable|string|max:255',
@@ -64,7 +64,7 @@ class FactureController extends Controller
 
         // On charge EXACTEMENT la même structure de données que pour `create`
         $coproprietes = Copropriete::with([
-            'exercicesComptables' => function ($query) {
+            'exercices' => function ($query) {
                 $query->where('statut', \App\Enums\StatutExercice::Ouvert)
                     ->with('budgetPostes.typeDePoste');
             }
@@ -82,7 +82,7 @@ class FactureController extends Controller
         $validated = $request->validate([
             'id_fournisseur' => 'required|exists:fournisseurs,id_fournisseur',
             'id_copropriete' => 'required|exists:coproprietes,id_copropriete',
-            'id_exercice' => 'required|exists:exercices_comptables,id_exercice',
+            'id_exercice' => 'required|exists:exercices,id_exercice',
             'id_budget_poste' => 'nullable|exists:budget_postes,id_poste', // <<<--- NOUVELLE RÈGLE
             'objet' => 'required|string|max:255',
             'numero_facture' => 'nullable|string|max:255',

@@ -53,6 +53,10 @@
                                 </td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                     <div class="flex items-center justify-end space-x-4">
+                                        {{-- On suppose qu'on a besoin de la permission 'reglement_proprio:voir' pour voir le compte --}}
+                                        @can('viewAny', App\Models\ReglementProprietaire::class)
+                                            <a href="{{ route('proprietaires.compte.index', $proprietaire) }}" class="text-blue-600 hover:text-blue-900">Compte</a>
+                                        @endcan
                                         @can('update', $proprietaire)
                                             <a href="{{ route('proprietaires.edit', $proprietaire) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
                                         @endcan

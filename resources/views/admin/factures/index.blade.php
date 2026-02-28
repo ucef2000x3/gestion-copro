@@ -54,6 +54,9 @@
                                     @can('update', $facture)
                                         <a href="{{ route('factures.edit', $facture) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
                                     @endcan
+                                    @can('payer', $facture)
+                                        <a href="{{ route('factures.reglements.index', $facture) }}" class="text-green-600 hover:text-green-900">Règlements</a>
+                                    @endcan
                                 </td>
                             </tr>
                         @empty

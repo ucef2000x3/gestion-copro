@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ExerciceComptable extends Model
+class Exercice extends Model
 {
     use HasFactory;
-    protected $table = 'exercices_comptables'; // Bonne pratique de spécifier le nom de la table
+    protected $table = 'exercices'; // Bonne pratique de spécifier le nom de la table
     protected $primaryKey = 'id_exercice';
     protected $fillable = ['id_copropriete', 'libelle', 'date_debut', 'date_fin', 'statut'];
     protected $casts = ['date_debut' => 'date', 'date_fin' => 'date', 'statut' => StatutExercice::class,];
 
     public function copropriete(): BelongsTo
     {
-        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+        return $this->belongsTo(Copropriete::class, 'id_copropriete', 'id_copropriete');
     }
 
     /**
@@ -24,7 +24,7 @@ class ExerciceComptable extends Model
      */
     public function budgetPostes(): HasMany
     {
-        return $this->hasMany(BudgetPoste::class, 'id_exercice');
+        return $this->hasMany(BudgetPoste::class, 'id_exercice', 'id_exercice');
     }
 
     /**
@@ -32,18 +32,18 @@ class ExerciceComptable extends Model
      */
     public function factures(): HasMany
     {
-        return $this->hasMany(Facture::class, 'id_exercice');
+        return $this->hasMany(Facture::class, 'id_exercice', 'id_exercice');
     }
 
-    // ... dans la classe ExerciceComptable
+    // ... dans la classe Exercice
     public function appelsDeFonds(): HasMany
     {
-        return $this->hasMany(AppelDeFonds::class, 'id_exercice');
+        return $this->hasMany(AppelDeFonds::class, 'id_exercice', 'id_exercice');
     }
 
 
     public function reglementsProprietaires() {
-        return $this->hasMany(ReglementProprietaire::class, 'id_exercice');
+        return $this->hasMany(ReglementProprietaire::class, 'id_exercice', 'id_exercice');
     }
 
 

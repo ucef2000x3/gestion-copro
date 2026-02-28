@@ -26,6 +26,7 @@ class FournisseurController extends Controller
         $this->authorize('create', Fournisseur::class);
         $validated = $request->validate([
             'nom' => 'required|string|max:255|unique:fournisseurs',
+            'compte_comptable' => 'nullable|string|max:255',
             'statut' => 'required|boolean',
         ]);
         Fournisseur::create($validated);
@@ -43,6 +44,7 @@ class FournisseurController extends Controller
         $this->authorize('update', $fournisseur);
         $validated = $request->validate([
             'nom' => 'required|string|max:255|unique:fournisseurs,nom,' . $fournisseur->id_fournisseur . ',id_fournisseur',
+            'compte_comptable' => 'nullable|string|max:255',
             'statut' => 'required|boolean',
         ]);
         $fournisseur->update($validated);

@@ -34,6 +34,7 @@ class Proprietaire extends Model
         'date_naissance',
         'forme_juridique',
         'numero_siret',
+        'compte_comptable',
         'iban',
         'bic',
         'commentaires',
@@ -55,7 +56,7 @@ class Proprietaire extends Model
      */
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_utilisateur');
+        return $this->belongsTo(User::class, 'id_utilisateur', 'id');
     }
 
     /**
@@ -65,7 +66,14 @@ class Proprietaire extends Model
     public function lots(): BelongsToMany
     {
         return $this->belongsToMany(Lot::class, 'lot_proprietaire', 'id_proprietaire', 'id_lot')
-            ->withPivot('pourcentage_possession') // <<<--- AJOUTEZ CETTE LIGNE
+            ->withPivot('pourcentage_possession')
             ->withTimestamps();
     }
+
+
+    public function reglements() {
+        return $this->hasMany(ReglementProprietaire::class, 'id_proprietaire', 'id_proprietaire');
+    }
+
+
 }

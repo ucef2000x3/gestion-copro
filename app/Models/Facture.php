@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class Facture extends Model
 {
     use HasFactory;
@@ -21,10 +22,10 @@ class Facture extends Model
         'montant_ttc' => 'decimal:2',
     ];
 
-    public function syndic(): BelongsTo { return $this->belongsTo(Syndic::class, 'id_syndic'); }
-    public function fournisseur(): BelongsTo { return $this->belongsTo(Fournisseur::class, 'id_fournisseur'); }
-    public function copropriete(): BelongsTo { return $this->belongsTo(Copropriete::class, 'id_copropriete'); }
-    public function exerciceComptable(): BelongsTo { return $this->belongsTo(ExerciceComptable::class, 'id_exercice'); }
+    public function syndic(): BelongsTo { return $this->belongsTo(Syndic::class, 'id_syndic', 'id_syndic'); }
+    public function fournisseur(): BelongsTo { return $this->belongsTo(Fournisseur::class, 'id_fournisseur', 'id_fournisseur'); }
+    public function copropriete(): BelongsTo { return $this->belongsTo(Copropriete::class, 'id_copropriete', 'id_copropriete'); }
+    public function exercice(): BelongsTo { return $this->belongsTo(Exercice::class, 'id_exercice', 'id_exercice'); }
     public function budgetPostes(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -41,5 +42,10 @@ class Facture extends Model
     {
         return $this->belongsToMany(BudgetPoste::class, 'imputations_facture', 'id_facture', 'id_poste')
             ->withPivot('montant_impute')->withTimestamps();
+    }
+
+    public function reglements(): HasMany
+    {
+        return $this->hasMany(ReglementFacture::class, 'id_facture', 'id_facture');
     }
 }

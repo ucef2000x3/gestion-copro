@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercices_comptables', function (Blueprint $table) {
+        Schema::create('exercices', function (Blueprint $table) {
             $table->id('id_exercice');
 
             $table->foreignId('id_copropriete')
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercices_comptables');
+        Schema::dropIfExists('exercices');
     }
 };

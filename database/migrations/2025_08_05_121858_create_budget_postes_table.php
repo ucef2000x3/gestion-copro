@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_poste');
 
             $table->foreignId('id_exercice')
-                ->constrained('exercices_comptables', 'id_exercice')
+                ->constrained('exercices', 'id_exercice')
                 ->onDelete('cascade');
 
             $table->foreignId('id_type_poste')

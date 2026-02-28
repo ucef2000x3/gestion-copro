@@ -2,12 +2,12 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BudgetPoste;
-use App\Models\ExerciceComptable;
+use App\Models\Exercice;
 use App\Models\TypeDePoste;
 use Illuminate\Http\Request;
 class BudgetController extends Controller
 {
-    public function index(ExerciceComptable $exercice)
+    public function index(Exercice $exercice)
     {
         // On pourrait créer une BudgetPolicy plus tard
         $this->authorize('update', $exercice);
@@ -21,7 +21,7 @@ class BudgetController extends Controller
         return view('admin.budget.index', compact('exercice', 'availablePostes'));
     }
 
-    public function store(Request $request, ExerciceComptable $exercice)
+    public function store(Request $request, Exercice $exercice)
     {
         $this->authorize('update', $exercice);
         $validated = $request->validate([
@@ -34,7 +34,7 @@ class BudgetController extends Controller
 
     public function destroy(BudgetPoste $poste)
     {
-        $this->authorize('update', $poste->exerciceComptable);
+        $this->authorize('update', $poste->exercice);
         $exerciceId = $poste->id_exercice;
         $poste->delete();
         return redirect()->route('exercices.budget.index', $exerciceId)->with('success', 'Poste supprimé du budget.');

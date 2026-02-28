@@ -24,11 +24,20 @@
                                     </div>
 
                                     <div class="sm:col-span-1">
+                                        <label for="compte_comptable" class="block text-sm font-medium leading-6 text-gray-900">Compte Comptable</label>
+                                        <div class="mt-2">
+                                            <input type="text" name="compte_comptable" id="compte_comptable" value="{{ old('compte_comptable') }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300" placeholder="Ex: 401002">
+                                        </div>
+                                        <p class="mt-1 text-xs text-gray-500">Optionnel. Si vide, le compte général 401000 sera utilisé.</p>
+                                        @error('compte_comptable')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                                    </div>
+
+                                    <div class="sm:col-span-1">
                                         <label for="statut" class="block text-sm font-medium leading-6 text-gray-900">Statut</label>
                                         <div class="mt-2">
                                             <select id="statut" name="statut" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">
-                                                <option value="1" {{ old('statut', '1') == '1' ? 'selected' : '' }}>Actif</option>
-                                                <option value="0" {{ old('statut') == '0' ? 'selected' : '' }}>Inactif</option>
+                                                <option value="1" @selected(old('statut', '1') == '1')>Actif</option>
+                                                <option value="0" @selected(old('statut') == '0')>Inactif</option>
                                             </select>
                                         </div>
                                     </div>

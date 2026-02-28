@@ -17,12 +17,12 @@ class Residence extends Model
 
     public function copropriete(): BelongsTo
     {
-        return $this->belongsTo(Copropriete::class, 'id_copropriete');
+        return $this->belongsTo(Copropriete::class, 'id_copropriete', 'id_copropriete');
     }
 
     public function lots(): HasMany
     {
-        return $this->hasMany(Lot::class, 'id_residence');
+        return $this->hasMany(Lot::class, 'id_residence', 'id_residence');
     }
 
     public function affectations(): MorphMany

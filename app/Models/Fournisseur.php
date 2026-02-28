@@ -9,14 +9,14 @@ class Fournisseur extends Model
 {
     use HasFactory, HasStatus;
     protected $primaryKey = 'id_fournisseur';
-    protected $fillable = ['nom', 'statut'];
+    protected $fillable = ['nom', 'compte_comptable', 'statut'];
 
     /**
      * Récupère toutes les factures émises par ce fournisseur.
      */
     public function factures(): HasMany
     {
-        return $this->hasMany(Facture::class, 'id_fournisseur');
+        return $this->hasMany(Facture::class, 'id_fournisseur', 'id_fournisseur');
     }
 
 

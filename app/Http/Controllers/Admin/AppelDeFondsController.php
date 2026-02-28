@@ -7,7 +7,9 @@ class AppelDeFondsController extends Controller
     public function index()
     {
         //$appels = AppelDeFonds::with('lot.copropriete')->latest()->paginate(20);
-        $appels = AppelDeFonds::with('lot.residence.copropriete')->latest()->paginate(20);
+        $appels = AppelDeFonds::with('lot.residence.copropriete',
+            'exercice'          // Pour avoir le libellé de l'exercice
+        )->latest('date_appel')->paginate(20);
         return view('admin.appels-de-fonds.index', compact('appels'));
     }
 }

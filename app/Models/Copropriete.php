@@ -32,7 +32,7 @@ class Copropriete extends Model
      */
     public function syndic(): BelongsTo
     {
-        return $this->belongsTo(Syndic::class, 'id_syndic');
+        return $this->belongsTo(Syndic::class, 'id_syndic', 'id_syndic');
     }
 
     public function affectations(): MorphMany
@@ -42,22 +42,22 @@ class Copropriete extends Model
 
     public function residences(): HasMany
     {
-        return $this->hasMany(Residence::class, 'id_copropriete');
+        return $this->hasMany(Residence::class, 'id_copropriete', 'id_copropriete');
     }
 
-    public function exercicesComptables(): HasMany
+    public function exercices(): HasMany
     {
-        return $this->hasMany(ExerciceComptable::class, 'id_copropriete');
+        return $this->hasMany(Exercice::class, 'id_copropriete', 'id_copropriete');
     }
 
     public function typesDePoste(): HasMany
     {
-        return $this->hasMany(TypeDePoste::class, 'id_copropriete');
+        return $this->hasMany(TypeDePoste::class, 'id_copropriete', 'id_copropriete');
     }
 
     public function devise(): BelongsTo
     {
-        return $this->belongsTo(Devise::class, 'id_devise');
+        return $this->belongsTo(Devise::class, 'id_devise', 'id_devise');
     }
 
     /**
@@ -65,7 +65,7 @@ class Copropriete extends Model
      */
     public function factures(): HasMany
     {
-        return $this->hasMany(Facture::class, 'id_copropriete');
+        return $this->hasMany(Facture::class, 'id_copropriete', 'id_copropriete');
     }
 
     /**
@@ -84,6 +84,13 @@ class Copropriete extends Model
         );
     }
 
+    /**
+     * Récupère tous les comptes bancaires et caisses de cette copropriété.
+     */
+    public function comptesBancaires(): HasMany
+    {
+        return $this->hasMany(CompteBancaire::class, 'id_copropriete', 'id_copropriete');
+    }
 
 
 
